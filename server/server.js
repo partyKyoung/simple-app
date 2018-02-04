@@ -1,17 +1,18 @@
 'use strict';
 
-const Webpack = require('webpack');
-const WebpackDevServer = require('../node_modules/webpack-dev-server/lib/Server');
-const webpackConfig = require('../webpack.config');
+const webpack = require('webpack');
+const webpackDevServer = require('webpack-dev-server');
+const config = require('../webpack.config');
+const options = {
+  contentBase: '../dist',
+  hot: true,
+  host: 'localhost'
+};
 
-const compiler = Webpack(webpackConfig);
-const devServerOptions = Object.assign({}, webpackConfig.devServer, {
-  stats: {
-    colors: true
-  }
-});
-const server = new WebpackDevServer(compiler, devServerOptions);
+webpackDevServer.addDevServerEntrypoints(config, options);
+const compiler = webpack(config);
+const server = new webpackDevServer(compiler, options);
 
-server.listen(8080, '127.0.0.1', () => {
-  console.log('Starting server on http://localhost:8080');
+server.listen(5000, 'localhost', () => {
+  console.log('dev server listening on port 5000');
 });
